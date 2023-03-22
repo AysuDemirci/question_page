@@ -9,9 +9,17 @@
 }
 .question-btn{
     
-    margin-bottom: 10px;
+    margin-left: 480px;
+    margin-top: -330px;
+    
 }
 .question-btn2{
-    margin-left: 10px;
-    margin-bottom: 10px;
+    margin-left: 410px;
+    margin-top: -300px;
+}
+
+
+.answer-btn{
+    margin-left: 410px;
+    margin-top: -95px;
 }
