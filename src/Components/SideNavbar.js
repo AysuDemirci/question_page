@@ -34,6 +34,8 @@ export default function SideNavbar() {
     }
   }
 
+ 
+
   return (
     <div style={style}>
       <Button onClick={toggle} className="sidenav-btn">
@@ -42,18 +44,18 @@ export default function SideNavbar() {
       {isMenuOpen && (
         <div>
           <ul style={{ marginTop: "50px" }}>
-            <li className="menu-items-style">
+            <li className="menu-items-style animation-li">
               <FaHome className="icons" />
               Home
             </li>
 
             <br />
-            <li className="menu-items-style1">
+            <li className="menu-items-style1 animation-li">
               <GrCircleInformation className="icons2" />
               Information
             </li>
             <br />
-            <li className="menu-items-style2">
+            <li className="menu-items-style2 animation-li">
               <GrContact className="icons3" />
               Contact Us
             </li>

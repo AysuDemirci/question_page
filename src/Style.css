@@ -65,10 +65,15 @@
     
 }
 
-.menu-items-style{
+@keyframes myMove{
+  0% {left:0px; top:0px}
+  100%{left: 45px;top: 0px;}
+  
+  }
+
+.animation-li{
 position: relative;
 animation: myMove;
-animation-duration: 0.5s  ;
 animation-iteration-count: 1;
 animation-timing-function: linear;
 list-style: none;
@@ -83,65 +88,38 @@ padding: 10px 0px 0px 0px;
 font-family: 'Delicious Handrawn', cursive;
 border-radius: 8px;
 }
-@keyframes myMove{
-0% {left:0px; top:0px}
-100%{left: 45px;top: 0px;}
+
+
+.menu-items-style{
+animation-duration: 0.5s  ;
 }
 
 .menu-items-style1{
-position: relative;
-animation: myMove;
 animation-duration: 0.75s  ;
-animation-iteration-count: 1;
-animation-timing-function: linear;
-list-style: none;
-width: 150px;
-height: 50px;
-text-align: center;
-font-weight: 500;
-font-size: 22px;
-background-color: #24AB3A;
-animation-fill-mode: forwards;
-padding: 10px 0px 0px 0px;
-border-radius: 8px;
-font-family: 'Delicious Handrawn', cursive;
-    }
-.menu-items-style2{
-position: relative;
-animation: myMove;
-animation-duration: 1s  ;
-animation-iteration-count: 1;
-animation-timing-function: linear;
-list-style: none;
-width: 150px;
-height: 50px;
-text-align: center;
-font-weight: 500;
-font-size: 22px;
-background-color: #24AB3A;
-animation-fill-mode: forwards;
-padding: 10px 0px 0px 0px;
-border-radius: 8px;
-font-family: 'Delicious Handrawn', cursive;
-  }
+}
 
-  .icons{
-    width: 20px;
-    margin-right:10px;
-    margin-left: -45px;
+.menu-items-style2{
+animation-duration: 1s  ;
+}
+
+
+
+.icons{
+  width: 20px;
+  margin-right:10px;
+  margin-left: -45px;
   }
-  .icons2{
-    width: 20px;
-    margin-right: 10px;
+.icons2{
+  width: 20px;
+  margin-right: 10px;
   }
-  .icons3{
+.icons3{
     width: 20px;
     margin-right: 15px;
   }
   
-  .follow-icons{
-    height: 25px;
-    margin-left: 15px;
-    
+.follow-icons{
+  height: 25px;
+  margin-left: 15px;
   }
   
