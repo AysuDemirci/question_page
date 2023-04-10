@@ -23,7 +23,7 @@ export default function QuestionTag() {
   };
 
   return (
-    <Container style={{}}>
+    <Container>
       <div>
       <br />
       <br />
