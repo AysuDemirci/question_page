@@ -73,9 +73,7 @@
 
 .animation-li{
 position: relative;
-animation: myMove;
-animation-iteration-count: 1;
-animation-timing-function: linear;
+
 list-style: none;
 width: 150px;
 height: 50px;
@@ -90,32 +88,28 @@ border-radius: 8px;
 }
 
 
-.menu-items-style{
-animation-duration: 0.5s  ;
+
+
+.ahref {
+  text-decoration: none;
+  color: black;
 }
-
-.menu-items-style1{
-animation-duration: 0.75s  ;
-}
-
-.menu-items-style2{
-animation-duration: 1s  ;
-}
-
-
 
 .icons{
   width: 20px;
   margin-right:10px;
   margin-left: -45px;
+  margin-top: -5px;
   }
 .icons2{
   width: 20px;
   margin-right: 10px;
+  margin-top: -5px;
   }
 .icons3{
     width: 20px;
     margin-right: 15px;
+    margin-top: -5px;
   }
   
 .follow-icons{
@@ -123,3 +117,14 @@ animation-duration: 1s  ;
   margin-left: 15px;
   }
   
+
+  .answer-btn{
+    background-color: #0F9903;
+    border: 2px solid #0F9903;
+    border-radius: 7px;
+  }
+  .answer-btn2{
+    background-color: #B72302;
+    border: 2px solid #B72302;
+    border-radius: 7px;
+  }
