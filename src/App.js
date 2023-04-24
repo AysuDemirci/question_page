@@ -6,7 +6,7 @@ import SideNavbar from "./Components/SideNavbar";
 export default function App() {
   return (
     <div style={{ overflowX: "hidden" }}>
-      <Row style={{marginBottom:"70px"}}>
+      <Row style={{ marginBottom: "70px" }}>
         <div className="header app-row">
           <h2 style={{ fontWeight: "500", fontSize: "46px" }}>
             Create a question tag
@@ -14,13 +14,17 @@ export default function App() {
         </div>
       </Row>
 
-
       <Row>
         <Col md="2">
           <SideNavbar />
         </Col>
         <Col>
+          
           <Container style={{ marginLeft: "20px" }}>
+          <br />
+          <br />
+          <h5>If you want to add more questions, please click Add button</h5>
+          <br />
             <QuestionTag />
           </Container>
         </Col>
