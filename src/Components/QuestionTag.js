@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Input, Row, Col, Container } from "reactstrap";
-import AnswerTag from "./AnswerTag";
+import { v4 as uuidv4 } from "uuid";
 
 export default function QuestionTag() {
+  const [uniqueId, setUniqueId] = useState(uuidv4());
+  const [questionUniqueId, setQuestionUniqueId] = useState(uuidv4());
   const [inputList, setInputList] = useState([
     { id: "0", question: "", answers: [{ id: "0", answer: "" }] },
   ]);
   const [alphabet, setAlphabet] = useState(["A"]);
-  const [idCounter, setIdCounter] = useState(0);
-  const [questionIdCounter, setQuestionIdCounter] = useState(0);
 
   function handleInputChange(e, index) {
     const { name, value } = e.target;
@@ -27,12 +27,13 @@ export default function QuestionTag() {
     setInputList([
       ...inputList,
       {
-        id: questionIdCounter + 1,
+        id: questionUniqueId,
         question: "",
-        answers: [{ id: questionIdCounter + 1, answer: "" }],
+        answers: [{ id: uniqueId, answer: "" }],
       },
     ]);
-    setQuestionIdCounter(questionIdCounter + 1);
+    setUniqueId(uuidv4());
+    setQuestionUniqueId(uuidv4());
   };
 
   const alphabetMapping = () => {
@@ -44,13 +45,11 @@ export default function QuestionTag() {
   };
   const handleAnswerAddClick = (index) => {
     const list = [...inputList];
-    const newAnswers = [
-      ...list[index].answers,
-      { id: idCounter + 1, answer: "" },
-    ];
+    const newAnswers = [...list[index].answers, { id: uniqueId, answer: "" }];
     list[index].answers = newAnswers;
     setInputList(list);
-    setIdCounter(idCounter + 1);
+    setUniqueId(uuidv4());
+    // setIdCounter(idCounter + 1);
   };
   const handleAnswerChange = (e, questionIndex, answerIndex) => {
     const { name, value } = e.target;
@@ -167,7 +166,7 @@ export default function QuestionTag() {
                             {x.answers.length === 5 &&
                             x.answers.length === answerIndex + 1 ? (
                               <button className="answer-btn" disabled>
-                                Add
+                                +
                               </button>
                             ) : (
                               x.answers.length === answerIndex + 1 && (
@@ -178,7 +177,7 @@ export default function QuestionTag() {
                                     handleAnswerAddClick(i);
                                   }}
                                 >
-                                  Add
+                                  +
                                 </button>
                               )
                             )}
@@ -192,7 +191,7 @@ export default function QuestionTag() {
                                   handleAnswerRemoveClick(i, answerIndex)
                                 }
                               >
-                                Remove
+                                <strong>x</strong>
                               </button>
                             )}
                           </li>

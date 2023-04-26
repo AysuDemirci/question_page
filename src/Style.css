@@ -122,10 +122,20 @@ border-radius: 8px;
   .answer-btn{
     background-color: #0F9903;
     border: 2px solid #0F9903;
-    border-radius: 7px;
+    border-radius: 10px;
+    font-weight: bolder;
+    font-size: 20px;
+    width: 30px;
+    height: 35px;
+    margin-top: 2px;
+    
   }
   .answer-btn2{
     background-color: #B72302;
     border: 2px solid #B72302;
-    border-radius: 7px;
+    border-radius: 10px;
+    margin-top: 2px;
+    font-size: 15px;
+    width: 30px;
+    height: 35px;
   }
