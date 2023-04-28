@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import { Input, Row, Col, Container } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
+import { FaCheck } from "react-icons/fa";
 
 export default function QuestionTag() {
   const [uniqueId, setUniqueId] = useState(uuidv4());
   const [questionUniqueId, setQuestionUniqueId] = useState(uuidv4());
   const [inputList, setInputList] = useState([
-    { id: "0", question: "", answers: [{ id: "0", answer: "" }] },
+    {
+      id: "0",
+      question: "",
+      answers: [{ id: "0", answer: "", isCorrectAnswer: false }],
+    },
   ]);
   const [alphabet, setAlphabet] = useState(["A"]);
+
+  function correctAnswer(questionIndex, answerIndex) {
+    const updatedInputList = [...inputList];
+    updatedInputList[questionIndex].answers.forEach((answer, index) => {
+      if (index === answerIndex) {
+        answer.isCorrectAnswer = !answer.isCorrectAnswer;
+      } else {
+        answer.isCorrectAnswer = false;
+      }
+    });
+    setInputList(updatedInputList);
+  }
 
   function handleInputChange(e, index) {
     const { name, value } = e.target;
@@ -45,11 +62,13 @@ export default function QuestionTag() {
   };
   const handleAnswerAddClick = (index) => {
     const list = [...inputList];
-    const newAnswers = [...list[index].answers, { id: uniqueId, answer: "" }];
+    const newAnswers = [
+      ...list[index].answers,
+      { id: uniqueId, answer: "", isCorrectAnswer: false },
+    ];
     list[index].answers = newAnswers;
     setInputList(list);
     setUniqueId(uuidv4());
-    // setIdCounter(idCounter + 1);
   };
   const handleAnswerChange = (e, questionIndex, answerIndex) => {
     const { name, value } = e.target;
@@ -142,8 +161,31 @@ export default function QuestionTag() {
                             listStyle: "none",
                           }}
                         >
+                          <li>
+                            <button
+                              onClick={() => {
+                                correctAnswer(i, answerIndex);
+                              }}
+                              style={{
+                                marginLeft: "35px",
+                                borderRadius: "15px",
+                                border: answer.isCorrectAnswer
+                                  ? "2px solid green"
+                                  : "2px solid gray",
+                                backgroundColor: "white",
+                              }}
+                            >
+                              <FaCheck
+                                style={{
+                                  color: answer.isCorrectAnswer
+                                    ? "green"
+                                    : "gray",
+                                }}
+                              />
+                            </button>
+                          </li>
                           <label
-                            style={{ marginLeft: "40px", marginTop: "5px" }}
+                            style={{ marginLeft: "0px", marginTop: "5px" }}
                           >
                             {alphabet[answerIndex]}
                           </label>
