@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input, Row, Col, Container } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
 import { FaCheck } from "react-icons/fa";
+import Pagination from "./Pagination";
 
 export default function QuestionTag() {
   const [uniqueId, setUniqueId] = useState(uuidv4());
@@ -14,6 +15,17 @@ export default function QuestionTag() {
     },
   ]);
   const [alphabet, setAlphabet] = useState(["A"]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(6);
+
+  //get current page
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentInputList = inputList.slice(indexOfFirstPost, indexOfLastPost);
+
+  //change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   function correctAnswer(questionIndex, answerIndex) {
     const updatedInputList = [...inputList];
@@ -46,7 +58,7 @@ export default function QuestionTag() {
       {
         id: questionUniqueId,
         question: "",
-        answers: [{ id: uniqueId, answer: "" }],
+        answers: [{ id: uniqueId, answer: "", isCorrectAnswer: false }],
       },
     ]);
     setUniqueId(uuidv4());
@@ -88,8 +100,8 @@ export default function QuestionTag() {
   return (
     <Container>
       <div>
-        {inputList.map((x, i) => {
-          console.log(inputList);
+        {currentInputList.map((x, i) => {
+          
           return (
             <div>
               <Col md="8" style={{ marginLeft: "20px" }}>
@@ -103,7 +115,7 @@ export default function QuestionTag() {
                   }}
                 >
                   <li>
-                    {" "}
+                   
                     {inputList.length - 1 === i && (
                       <button
                         style={{ marginLeft: "200px" }}
@@ -251,6 +263,13 @@ export default function QuestionTag() {
         })}
 
         <br />
+        <div>
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={inputList.length}
+            paginate={paginate}
+          />
+        </div>
       </div>
     </Container>
   );

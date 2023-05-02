@@ -19,11 +19,11 @@ export default function SideNavbar() {
     if (!isMenuOpen) {
       setIsMenuOpen(true);
       setStyle({
-        width: "300px",
+        width: "13%",
         backgroundColor: "#ededed",
-        height: "1065px",
+        height: "100%",
         position: "fixed",
-        marginTop: "0px",
+       
       });
     } else {
       setIsMenuOpen(false);
@@ -40,7 +40,7 @@ export default function SideNavbar() {
       </Button>
       {isMenuOpen && (
         <div>
-          <ul style={{ marginTop: "50px" }}>
+          <ul style={{ marginTop: "55%",marginLeft:"15%" }}>
             <li className="animation-li">
               <a href="/" className="ahref">
                 <FaHome className="icons" />
@@ -65,7 +65,7 @@ export default function SideNavbar() {
             </li>
           </ul>
 
-          <div style={{ marginTop: "430px" }}>
+          <div style={{ marginTop: "170%" }}>
             <h3
               style={{
                 marginLeft: "95px",
@@ -75,7 +75,7 @@ export default function SideNavbar() {
             >
               Follow Us!
             </h3>
-            <ul style={{ display: "flex", listStyle: "none", gap: "25px" }}>
+            <ul style={{ display: "flex", listStyle: "none", gap: "25px",  }}>
               <li>
                 <FaFacebook className="follow-icons" />
               </li>
