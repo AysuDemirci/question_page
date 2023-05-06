@@ -40,7 +40,7 @@ export default function SideNavbar() {
       </Button>
       {isMenuOpen && (
         <div>
-          <ul style={{ marginTop: "55%",marginLeft:"15%" }}>
+          <ul style={{ marginTop: "55%" }}>
             <li className="animation-li">
               <a href="/" className="ahref">
                 <FaHome className="icons" />
