@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Row, Col, Container } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
 import { FaCheck } from "react-icons/fa";
@@ -17,7 +17,7 @@ export default function QuestionTag() {
   const [alphabet, setAlphabet] = useState(["A"]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(6);
+  const [postsPerPage] = useState(10);
 
   //get current page
   const indexOfLastPost = currentPage * postsPerPage;
@@ -29,27 +29,32 @@ export default function QuestionTag() {
 
   function correctAnswer(questionIndex, answerIndex) {
     const updatedInputList = [...inputList];
-    updatedInputList[questionIndex].answers.forEach((answer, index) => {
-      if (index === answerIndex) {
-        answer.isCorrectAnswer = !answer.isCorrectAnswer;
-      } else {
-        answer.isCorrectAnswer = false;
+    updatedInputList[questionIndex + indexOfFirstPost].answers.forEach(
+      (answer, index) => {
+        if (index === answerIndex) {
+          answer.isCorrectAnswer = !answer.isCorrectAnswer;
+        } else {
+          answer.isCorrectAnswer = false;
+        }
       }
-    });
+    );
     setInputList(updatedInputList);
+    sessionStorage.setItem("inputList", JSON.stringify(updatedInputList));
   }
 
   function handleInputChange(e, index) {
     const { name, value } = e.target;
     const list = [...inputList];
-    list[index][name] = value;
+    list[index + indexOfFirstPost][name] = value;
     setInputList(list);
+    sessionStorage.setItem("inputList", JSON.stringify(list));
   }
 
   const handleRemoveClick = (index) => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
+    sessionStorage.setItem("inputList", JSON.stringify(list));
   };
 
   const handleAddClick = () => {
@@ -75,50 +80,64 @@ export default function QuestionTag() {
   const handleAnswerAddClick = (index) => {
     const list = [...inputList];
     const newAnswers = [
-      ...list[index].answers,
+      ...list[index + indexOfFirstPost].answers,
       { id: uniqueId, answer: "", isCorrectAnswer: false },
     ];
-    list[index].answers = newAnswers;
+    list[index + indexOfFirstPost].answers = newAnswers;
     setInputList(list);
     setUniqueId(uuidv4());
   };
   const handleAnswerChange = (e, questionIndex, answerIndex) => {
     const { name, value } = e.target;
     const list = [...inputList];
-    const question = list[questionIndex];
+    const question = list[questionIndex + indexOfFirstPost];
     const answer = question.answers[answerIndex];
     answer[name] = value;
     setInputList(list);
+
+    sessionStorage.setItem("inputList", JSON.stringify(list));
   };
   const handleAnswerRemoveClick = (questionIndex, answerIndex) => {
     const list = [...inputList];
-    const question = list[questionIndex];
+    const question = list[questionIndex + indexOfFirstPost];
     question.answers.splice(answerIndex, 1);
     setInputList(list);
+    sessionStorage.setItem("inputList", JSON.stringify(list));
   };
+
+  useEffect(() => {
+    const storedInputList = sessionStorage.getItem("inputList");
+    if (storedInputList) {
+      setInputList(JSON.parse(storedInputList));
+    }
+  }, []);
 
   return (
     <Container>
       <div>
         {currentInputList.map((x, i) => {
-          
           return (
             <div>
-              <Col md="8" style={{ marginLeft: "20px" }}>
+              <Col
+                md="10"
+                style={{
+                  marginLeft: "20px",
+                  backgroundColor: "#fafafa",
+                  borderRadius: "5px",
+                }}
+              >
                 <ul
                   key={x.id}
                   style={{
                     display: "flex",
-                    gap: "10px",
+                    gap: "12px",
                     listStyle: "none",
-                    marginLeft: "500px",
+                    marginLeft: "83%",
                   }}
                 >
                   <li>
-                   
-                    {inputList.length - 1 === i && (
+                    {currentInputList.length - 1 === i && (
                       <button
-                        style={{ marginLeft: "200px" }}
                         className="question-btn2"
                         onClick={handleAddClick}
                       >
@@ -127,7 +146,7 @@ export default function QuestionTag() {
                     )}
                   </li>
                   <li>
-                    {inputList.length !== 1 && (
+                    {currentInputList.length !== 1 && (
                       <button
                         className="question-btn"
                         onClick={() => handleRemoveClick(i)}
@@ -143,14 +162,22 @@ export default function QuestionTag() {
                     key={x.id}
                     style={{ listStyle: "none", display: "flex", gap: "20px" }}
                   >
-                    <label style={{ marginTop: "5px", marginLeft: "5px" }}>
-                      {i + 1}.
+                    <label
+                      style={{
+                        marginTop: "6px",
+                        marginLeft: "5px",
+                        fontWeight: "500",
+                        fontSize: "17px",
+                      }}
+                    >
+                      {i + indexOfFirstPost + 1}.
                     </label>
                     <li>
                       <Input
                         style={{
                           width: "700px",
                           marginBottom: "15px",
+                          display: "flex",
                         }}
                         name="question"
                         placeholder="Enter Question"
@@ -197,7 +224,11 @@ export default function QuestionTag() {
                             </button>
                           </li>
                           <label
-                            style={{ marginLeft: "0px", marginTop: "5px" }}
+                            style={{
+                              marginLeft: "0px",
+                              marginTop: "5px",
+                              fontSize: "17px",
+                            }}
                           >
                             {alphabet[answerIndex]}
                           </label>
@@ -257,7 +288,6 @@ export default function QuestionTag() {
                 <br />
               </Col>
               <br />
-              <br />
             </div>
           );
         })}
@@ -265,6 +295,7 @@ export default function QuestionTag() {
         <br />
         <div>
           <Pagination
+            style={{ marginTop: "150%" }}
             postsPerPage={postsPerPage}
             totalPosts={inputList.length}
             paginate={paginate}

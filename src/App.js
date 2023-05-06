@@ -19,12 +19,13 @@ export default function App() {
           <SideNavbar />
         </Col>
         <Col>
-          
           <Container style={{ marginLeft: "20px" }}>
-          <br />
-          <br />
-          <h5>If you want to add more questions, please click Add button</h5>
-          <br />
+            <br />
+            <br />
+            <h5 style={{ marginLeft: "35px" }}>
+              If you want to add more questions, please click Add button
+            </h5>
+            <br />
             <QuestionTag />
           </Container>
         </Col>
