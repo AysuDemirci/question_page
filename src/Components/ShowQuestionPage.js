@@ -60,7 +60,6 @@ export default function ShowQuestionPage(props) {
         {!showResult ? (
           <Col md="10" style={{ marginTop: "5%", marginBottom: "7%" }}>
             {inputList.map((x, questionIndex) => {
-              console.log(selectedAnswer);
               return (
                 <div
                   style={{
