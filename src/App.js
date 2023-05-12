@@ -1,13 +1,12 @@
 import React from "react";
-import { Col, Container, Row } from "reactstrap";
+import { Container, Row } from "reactstrap";
 import QuestionTag from "./Components/QuestionTag";
-import SideNavbar from "./Components/SideNavbar";
 
 export default function App() {
   return (
     <div style={{ overflowX: "hidden" }}>
-      <Row style={{ marginBottom: "70px" }}>
-        <div className="header app-row">
+      <Row>
+        <div className="header">
           <h2 style={{ fontWeight: "500", fontSize: "46px" }}>
             Create a question tag
           </h2>
@@ -15,15 +14,11 @@ export default function App() {
       </Row>
 
       <Row>
-        <Col md="2">
-          <SideNavbar />
-        </Col>
-        <Col>
-          <Container style={{ marginLeft: "20px" }}>
-            
+        <Container>
+          <center>
             <QuestionTag />
-          </Container>
-        </Col>
+          </center>
+        </Container>
       </Row>
     </div>
   );
