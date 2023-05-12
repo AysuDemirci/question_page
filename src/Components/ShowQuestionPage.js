@@ -1,6 +1,7 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { Col, Container } from "reactstrap";
 import { TbConfetti, TbMoodSad } from "react-icons/tb";
+import { VscDebugRestart } from "react-icons/vsc";
 
 export default function ShowQuestionPage(props) {
   const { inputList, alphabet } = props;
@@ -55,50 +56,39 @@ export default function ShowQuestionPage(props) {
   }
 
   return (
-    <div>
+    <div style={{ justifyContent: "center" }}>
       <Container>
         {!showResult ? (
-          <Col md="10" style={{ marginTop: "5%", marginBottom: "7%" }}>
+          <Col md="10" className="showanswer-col">
+            <center>
+              <h3>Let's Begin!</h3>
+            </center>
+
+            <br />
+            <br />
             {inputList.map((x, questionIndex) => {
               return (
-                <div
-                  style={{
-                    border: "1px solid black",
-                    marginBottom: "20px",
-                    paddingTop: "15px",
-                    borderRadius: "7px",
-                  }}
-                >
-                  <ul
-                    style={{ display: "flex", gap: "10px", listStyle: "none" }}
-                    key={x.id}
-                  >
-                    <li>{questionIndex + 1}.</li>
-                    <li>{x.question}</li>
+                <div className="showanswer-div">
+                  <ul className="showanswer-question-ul" key={x.id}>
+                    <li style={{ fontWeight: "500" }}>{questionIndex + 1}.</li>
+                    <li style={{ wordBreak: "break-word" }}>{x.question}</li>
                   </ul>
                   {x.answers.map((a, answerIndex) => (
                     <div>
                       <div>
-                        <ul
-                          style={{
-                            listStyle: "none",
-                            display: "flex",
-                            gap: "10px",
-                          }}
-                          key={a.id}
-                        >
+                        <ul className="showanswer-question-ul" key={a.id}>
                           <li>
                             <button
+                              className="alphabet-btn"
                               style={{
                                 border:
                                   selectedAnswer[questionIndex] === answerIndex
-                                    ? "2px solid green"
+                                    ? "2px solid #4fb945"
                                     : "2px solid gray",
-                                borderRadius: "20px",
-                                width: "30px",
+
                                 backgroundColor:
                                   selectedAnswer[questionIndex] === answerIndex
-                                    ? "green"
+                                    ? "#4fb945"
                                     : "white",
                               }}
                               onClick={() =>
@@ -108,7 +98,12 @@ export default function ShowQuestionPage(props) {
                               {alphabet[answerIndex]}
                             </button>
                           </li>
-                          <li style={{ marginTop: "1px" }}>{a.answer}</li>
+                          <li
+                            style={{ wordBreak: "break-word" }}
+                            className="showanswer-li"
+                          >
+                            {a.answer}
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -116,104 +111,88 @@ export default function ShowQuestionPage(props) {
                 </div>
               );
             })}
+
             <div>
-              <button
+              <ul
+                className="showanswer-return-finish"
                 style={{
-                  marginLeft: "40%",
-                  width: "200px",
-                  height: "45px",
-                  border: "1px solid gray",
-                  borderRadius: "10px",
-                }}
-                onClick={() => {
-                  compareAnswers();
+                  justifyContent: "center",
                 }}
               >
-                Finish Test
-              </button>
+                <li>
+                  <button className="finishtest-btn">
+                    <a className="showanswer-return" href="/*">
+                      Return Question Page
+                    </a>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="finishtest-btn"
+                    onClick={() => {
+                      compareAnswers();
+                    }}
+                  >
+                    Finish Test
+                  </button>
+                </li>
+              </ul>
             </div>
           </Col>
         ) : (
           <div>
-            <Col
-              md="5"
-              style={{
-                marginTop: "15%",
-                backgroundColor: "#fafafa",
-                padding: "30px 0px 30px 40px",
-                borderRadius: "10px",
-                marginLeft: "30%",
-                width: "700px",
-                height: "500px",
-              }}
-            >
-              <br />
-              <div style={{ textAlign: "center" }}>
-                <h2>Results</h2>
+            <center>
+              <Col className="result-col" md="6">
                 <br />
-                <p className="result-text">
-                  Total Question : {inputList.length}
-                </p>
-                <p className="result-text">
-                  Correct Answer : {result.correctAnswers}
-                </p>
-                <p className="result-text">
-                  Wrong Answer : {result.wrongAnswers}
-                </p>
-                <p className="result-text">
-                  Empty Answer : {result.emptyAnswers}
-                </p>
+                <div style={{ textAlign: "center" }}>
+                  <h2>Results</h2>
+                  <br />
+                  <p className="result-text">
+                    Total Question : {inputList.length}
+                  </p>
+                  <p className="result-text">
+                    Correct Answer : {result.correctAnswers}
+                  </p>
+                  <p className="result-text">
+                    Wrong Answer : {result.wrongAnswers}
+                  </p>
+                  <p className="result-text">
+                    Empty Answer : {result.emptyAnswers}
+                  </p>
 
-                <p className="result-score-text">
-                  Score :
-                  {((result.correctAnswers / inputList.length) * 100).toFixed(
-                    2
+                  <p className="result-score-text">
+                    Score :
+                    {((result.correctAnswers / inputList.length) * 100).toFixed(
+                      2
+                    )}
+                    %
+                  </p>
+                  {(result.correctAnswers / inputList.length) * 100 < 50 ? (
+                    <p>
+                      Try Harder!
+                      <TbMoodSad className="confetti confetti-win" />
+                    </p>
+                  ) : (
+                    <p>
+                      Wow! You are good at it!
+                      <TbConfetti className="confetti confetti-sad" />
+                    </p>
                   )}
-                  %
-                </p>
-                {(result.correctAnswers / inputList.length) * 100 < 50 ? (
-                  <p>
-                    Try Harder!
-                    <TbMoodSad
-                      className="confetti"
-                      style={{
-                        color: "#2857bd",
-                        marginLeft: "1%",
-                        marginBottom: "1%",
-                      }}
-                    />
-                  </p>
-                ) : (
-                  <p>
-                    Wow! You are good at it!
-                    <TbConfetti
-                      className="confetti"
-                      style={{
-                        color: "orange",
-                        marginLeft: "2%",
-                        marginBottom: "2%",
-                      }}
-                    />
-                  </p>
-                )}
-              </div>
-              <br />
-              <br />
-              <button
-                style={{
-                  marginLeft: "40%",
-                  width: "130px",
-                  height: "35px",
-                  border: "1px solid gray",
-                  borderRadius: "5px",
-                }}
-                onClick={() => {
-                  restartGame();
-                }}
-              >
-                Restart Test
-              </button>
-            </Col>
+                </div>
+                <br />
+                <br />
+
+                <button
+                  className="restartgame-btn"
+                  onClick={() => {
+                    restartGame();
+                  }}
+                >
+                  Restart Test
+                  <VscDebugRestart className="restart-icon" />
+                </button>
+              </Col>
+            </center>
           </div>
         )}
       </Container>

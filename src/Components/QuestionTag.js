@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Input, Row, Col, Container } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTimesCircle, FaPlusCircle } from "react-icons/fa";
+
 import Pagination from "./Pagination";
 import { Route, Routes } from "react-router-dom";
 import ShowQuestionPage from "./ShowQuestionPage";
@@ -35,14 +36,13 @@ export default function QuestionTag() {
       (answer, index) => {
         if (index === answerIndex) {
           answer.isCorrectAnswer = !answer.isCorrectAnswer;
-         
         } else {
           answer.isCorrectAnswer = false;
         }
       }
     );
     setInputList(updatedInputList);
-    
+
     sessionStorage.setItem("inputList", JSON.stringify(updatedInputList));
   }
 
@@ -54,10 +54,9 @@ export default function QuestionTag() {
     sessionStorage.setItem("inputList", JSON.stringify(list));
   }
 
-
   const handleRemoveClick = (index) => {
     const list = [...inputList];
-    list.splice(index, 1);
+    list.splice(index + indexOfFirstPost, 1);
     setInputList(list);
     sessionStorage.setItem("inputList", JSON.stringify(list));
   };
@@ -134,30 +133,34 @@ export default function QuestionTag() {
               <div>
                 <br />
                 <br />
-                <h5 style={{ marginLeft: "35px" }}>
-                  If you want to add more questions, please click Add button
-                </h5>
+                <h3 className="questiontag-header">Create A Question!</h3>
+                <br />
+                <h6 className="questiontag-header">
+                  If you want to add more questions, please click Add button.
+                </h6>
                 <br />
                 {currentInputList.map((x, i) => {
                   return (
                     <div>
                       <Col
                         md="10"
-                        style={{
-                          marginLeft: "20px",
-                          backgroundColor: "#fafafa",
-                          borderRadius: "5px",
-                        }}
+                        className="questiontag-col"
+                        style={{ justifyContent: "center" }}
                       >
-                        <ul
-                          key={x.id}
-                          style={{
-                            display: "flex",
-                            gap: "12px",
-                            listStyle: "none",
-                            marginLeft: "83%",
-                          }}
-                        >
+                        <ul key={x.id} className="questiontag-ul">
+                          <li>
+                            {currentInputList.length !==
+                              1 + indexOfFirstPost && (
+                              <button
+                                className="question-btn"
+                                onClick={() =>
+                                  handleRemoveClick(i, indexOfFirstPost)
+                                }
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </li>
                           <li>
                             {currentInputList.length - 1 === i && (
                               <button
@@ -168,43 +171,18 @@ export default function QuestionTag() {
                               </button>
                             )}
                           </li>
-                          <li>
-                            {currentInputList.length !== 1 && (
-                              <button
-                                className="question-btn"
-                                onClick={() => handleRemoveClick(i)}
-                              >
-                                Remove
-                              </button>
-                            )}
-                          </li>
                         </ul>
 
                         <Row className="question-row-style">
-                          <ul
-                            key={x.id}
-                            style={{
-                              listStyle: "none",
-                              display: "flex",
-                              gap: "20px",
-                            }}
-                          >
-                            <label
-                              style={{
-                                marginTop: "6px",
-                                marginLeft: "5px",
-                                fontWeight: "500",
-                                fontSize: "17px",
-                              }}
-                            >
+                          <ul key={x.id} className="questiontag-row-ul">
+                            <label className="questiontag-row-label">
                               {i + indexOfFirstPost + 1}.
                             </label>
                             <li>
                               <Input
+                                className="questiontag-question-input"
                                 style={{
                                   width: "700px",
-                                  marginBottom: "15px",
-                                  display: "flex",
                                 }}
                                 name="question"
                                 placeholder="Enter Question"
@@ -221,11 +199,7 @@ export default function QuestionTag() {
                               <Row>
                                 <ul
                                   key={answer.id}
-                                  style={{
-                                    display: "flex",
-                                    gap: "20px",
-                                    listStyle: "none",
-                                  }}
+                                  className="questiontag-answer-ul"
                                 >
                                   <li>
                                     <button
@@ -234,15 +208,19 @@ export default function QuestionTag() {
                                       }}
                                       style={{
                                         marginLeft: "35px",
-                                        borderRadius: "15px",
+                                        width: "30px",
+                                        borderRadius: "10px",
                                         border: answer.isCorrectAnswer
                                           ? "2px solid green"
                                           : "2px solid gray",
                                         backgroundColor: "white",
+                                        marginTop: "4px",
                                       }}
                                     >
                                       <FaCheck
                                         style={{
+                                          textAlign: "center",
+                                          margin: "-2px 0px 0px -1px",
                                           color: answer.isCorrectAnswer
                                             ? "green"
                                             : "gray",
@@ -250,21 +228,16 @@ export default function QuestionTag() {
                                       />
                                     </button>
                                   </li>
-                                  <label
-                                    style={{
-                                      marginLeft: "0px",
-                                      marginTop: "5px",
-                                      fontSize: "17px",
-                                    }}
-                                  >
-                                    {alphabet[answerIndex]}
-                                  </label>
+                                  <li>
+                                    <label className="questiontag-answer-label">
+                                      {alphabet[answerIndex]}
+                                    </label>
+                                  </li>
+
                                   <li>
                                     <Input
-                                      style={{
-                                        width: "500px",
-                                        marginBottom: "15px",
-                                      }}
+                                      className="questiontag-answer-input"
+                                      style={{ width: "500px" }}
                                       name="answer"
                                       placeholder="Enter Answer"
                                       onChange={(e) =>
@@ -273,28 +246,6 @@ export default function QuestionTag() {
                                       value={answer.answer}
                                     />
                                   </li>
-
-                                  <li>
-                                    {x.answers.length === 5 &&
-                                    x.answers.length === answerIndex + 1 ? (
-                                      <button className="answer-btn" disabled>
-                                        +
-                                      </button>
-                                    ) : (
-                                      x.answers.length === answerIndex + 1 && (
-                                        <button
-                                          className="answer-btn"
-                                          onClick={() => {
-                                            alphabetMapping();
-                                            handleAnswerAddClick(i);
-                                          }}
-                                        >
-                                          +
-                                        </button>
-                                      )
-                                    )}
-                                  </li>
-
                                   <li>
                                     {x.answers.length !== 1 && (
                                       <button
@@ -306,8 +257,31 @@ export default function QuestionTag() {
                                           )
                                         }
                                       >
-                                        <strong>x</strong>
+                                        <strong>
+                                          <FaTimesCircle className="questiontag-answer-remove" />
+                                        </strong>
                                       </button>
+                                    )}
+                                  </li>
+
+                                  <li>
+                                    {x.answers.length === 5 &&
+                                    x.answers.length === answerIndex + 1 ? (
+                                      <button className="answer-btn" disabled>
+                                        <FaPlusCircle className="questiontag-answer-add" />
+                                      </button>
+                                    ) : (
+                                      x.answers.length === answerIndex + 1 && (
+                                        <button
+                                          className="answer-btn"
+                                          onClick={() => {
+                                            alphabetMapping();
+                                            handleAnswerAddClick(i);
+                                          }}
+                                        >
+                                          <FaPlusCircle className="questiontag-answer-add" />
+                                        </button>
+                                      )
                                     )}
                                   </li>
                                 </ul>
@@ -317,28 +291,17 @@ export default function QuestionTag() {
                         </Row>
                         <br />
                       </Col>
+
                       <br />
                     </div>
                   );
                 })}
 
-                <button
-                  style={{
-                    border: "none",
-                    backgroundColor: "gray",
-                    width: "150px",
-                    height: "35px",
-                    marginLeft: "73%",
-                  }}
-                >
-                  <a
-                    href="/show"
-                    style={{ textDecoration: "none", color: "black" }}
-                  >
+                <button className="questiontag-starttest-button">
+                  <a href="/show" className="questiontag-a">
                     Start Test
                   </a>
                 </button>
-                <br />
                 <br />
                 <br />
 
